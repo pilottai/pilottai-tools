@@ -1,0 +1,10 @@
+[project]
+name = "pilottai-tools"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "python-docx>=1.2.0",
+    "redis>=6.2.0",
+]

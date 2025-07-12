@@ -1,0 +1,34 @@
+# Source code
+*.py linguist-language=Python
+*.pyx linguist-language=Python
+*.pyd linguist-language=Python
+*.html linguist-detectable=true
+*.js linguist-detectable=true
+
+# Documentation
+docs/* linguist-documentation
+*.md linguist-documentation
+*.rst linguist-documentation
+
+# Examples
+examples/*.py linguist-detectable
+examples/*.j linguist-language=Java
+
+# Generated files
+*.html linguist-vendored
+*.css linguist-vendored
+*.js linguist-vendored
+*.json linguist-vendored
+
+# Binary files
+*.pdf binary
+*.png binary
+*.jpg binary
+*.gif binary
+
+# Core project files
+pilottai/* linguist-documentation=false
+
+# Line endings
+* text=auto eol=lf
+*.bat text eol=crlf
