@@ -31,7 +31,7 @@ PilottAI-Tools extends the core PilottAI framework by providing pre-built connec
 ## Installation
 
 ```bash
-pip install pilottai-tools
+pip install pilottai_tools
 ```
 
 ## Status
