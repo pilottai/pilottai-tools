@@ -1,0 +1,42 @@
+name: Publish Python Package
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    - name: Install Poetry
+      uses: snok/install-poetry@v1
+      with:
+        version: latest
+        virtualenvs-create: true
+        virtualenvs-in-project: true
+
+    - name: Install poetry-dynamic-versioning
+      run: |
+        poetry self add "poetry-dynamic-versioning[plugin]"
+
+    - name: Update lock file
+      run: poetry lock
+
+    - name: Build package
+      run: poetry build
+
+    - name: Publish to PyPI
+      env:
+        POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_TOKEN }}
+      run: poetry publish
