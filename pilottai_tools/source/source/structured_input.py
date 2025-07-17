@@ -9,7 +9,7 @@ from pilottai.knowledge.source.base_input import BaseInputSource
 
 class StructuredInput(BaseInputSource):
     """
-    Input source for processing structured data like CSV, Excel, or db tables.
+    Input source for processing structured data like CSV, Excel, or memory tables.
     Converts structured data into a text representation for source extraction.
     """
 
