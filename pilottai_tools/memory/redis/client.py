@@ -1,6 +1,6 @@
 import redis
 import logging
-from pilottai_tools.db.redis.config import RedisConfig
+from pilottai_tools.memory.redis.config import RedisConfig
 
 logger = logging.getLogger(__name__)
 
