@@ -8,7 +8,7 @@ from typing import Dict, List, Optional, Any
 from pydantic import BaseModel, Field
 
 
-from pilottai.config.model import KnowledgeSource, CacheEntry
+from pilottai_tools.config.model import KnowledgeSource, CacheEntry
 
 class DataManager:
     def __init__(self, cache_size: int = 1000, cache_ttl: int = 3600):
@@ -58,7 +58,7 @@ class DataManager:
             return connected
 
         except Exception as e:
-            self.logger.error(f"Error adding source {source.name}: {str(e)}")
+            self.logger.error(f"Error adding knowledge {source.name}: {str(e)}")
             return False
 
     async def query_knowledge(
@@ -89,7 +89,7 @@ class DataManager:
                                 if result is not None:
                                     results.append(result)
                         except Exception as e:
-                            self.logger.error(f"Error querying source {source_type}: {str(e)}")
+                            self.logger.error(f"Error querying knowledge {source_type}: {str(e)}")
                             source.error_count += 1
                             continue
                 if results:
@@ -119,12 +119,12 @@ class DataManager:
                     return result
             except asyncio.TimeoutError:
                 self.logger.warning(
-                    f"Query timeout for source {source.name}, attempt {attempt + 1}"
+                    f"Query timeout for knowledge {source.name}, attempt {attempt + 1}"
                 )
                 source.error_count += 1
             except Exception as e:
                 self.logger.error(
-                    f"Query failed for source {source.name}, attempt {attempt + 1}: {str(e)}"
+                    f"Query failed for knowledge {source.name}, attempt {attempt + 1}: {str(e)}"
                 )
                 source.error_count += 1
                 if attempt < source.max_retries - 1:
@@ -223,7 +223,7 @@ class DataManager:
                 ]
                 for k in expired_keys:
                     del self.cache[k]
-                # Check source health
+                # Check knowledge health
                 for source_name, source in self.sources.items():
                     if source.error_count > source.max_retries:
                         source.is_connected = False

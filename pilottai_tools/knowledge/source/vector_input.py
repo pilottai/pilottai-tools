@@ -6,13 +6,13 @@ from datetime import datetime
 import io
 import pickle
 
-from pilottai.knowledge.source.base_input import BaseInputSource
+from pilottai_tools.knowledge.source.base_input import BaseInputSource
 
 
 class VectorInput(BaseInputSource):
     """
-    Input source for processing vector embeddings and similarity search.
-    Useful for semantic search, nearest neighbors, and source retrieval.
+    Input knowledge for processing vector embeddings and similarity search.
+    Useful for semantic search, nearest neighbors, and knowledge retrieval.
     """
 
     def __init__(
@@ -50,7 +50,7 @@ class VectorInput(BaseInputSource):
             raise ValueError(f"Invalid distance metric: {self.distance_metric}. Must be one of {valid_metrics}")
 
     async def connect(self) -> bool:
-        """Load vector embeddings from the specified source"""
+        """Load vector embeddings from the specified knowledge"""
         try:
             # Handle direct vector data
             if self.vectors is not None:
@@ -107,7 +107,7 @@ class VectorInput(BaseInputSource):
                 self.is_connected = True
                 return True
 
-            self.logger.error("No vector source provided")
+            self.logger.error("No vector knowledge provided")
             self.is_connected = False
             return False
 
@@ -120,7 +120,7 @@ class VectorInput(BaseInputSource):
         """Execute semantic search using vector embeddings"""
         if not self.is_connected or self.embeddings is None:
             if not await self.connect():
-                raise ValueError("Could not connect to vector source")
+                raise ValueError("Could not connect to vector knowledge")
 
         self.access_count += 1
         self.last_access = datetime.now()
@@ -153,7 +153,7 @@ class VectorInput(BaseInputSource):
             except Exception as e:
                 return {"error": f"Error embedding query: {str(e)}"}
         else:
-            return {"error": "Text embedding not supported for this vector input source"}
+            return {"error": "Text embedding not supported for this vector input knowledge"}
 
     async def _vector_search(self, query_vector: np.ndarray) -> List[Dict[str, Any]]:
         """Search for similar vectors using the specified distance metric"""

@@ -4,13 +4,13 @@ import tempfile
 from typing import Any, List, Optional
 from datetime import datetime, timedelta
 
-from pilottai.knowledge.source.base_input import BaseInputSource
+from pilottai_tools.knowledge.source.base_input import BaseInputSource
 
 
 class VideoInput(BaseInputSource):
     """
-    Input source for processing video files.
-    Extracts audio track and/or frames from videos, then processes them for source extraction.
+    Input knowledge for processing video files.
+    Extracts audio track and/or frames from videos, then processes them for knowledge extraction.
     """
 
     def __init__(

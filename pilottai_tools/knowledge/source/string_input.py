@@ -1,12 +1,12 @@
 from typing import Any, Optional
 from datetime import datetime
 
-from pilottai.knowledge.source.base_input import BaseInputSource
+from pilottai_tools.knowledge.source.base_input import BaseInputSource
 
 
 class StringInput(BaseInputSource):
     """
-    Input source for processing plain text strings.
+    Input knowledge for processing plain text strings.
     Implements base functionality for text content handling.
     """
 
@@ -74,7 +74,7 @@ class StringInput(BaseInputSource):
     async def validate_content(self) -> bool:
         """Validate that the string content is not empty"""
         if not self.text:
-            self.logger.warning(f"No text content for source {self.name}")
+            self.logger.warning(f"No text content for knowledge {self.name}")
             return False
         return True
 
@@ -84,7 +84,7 @@ class StringInput(BaseInputSource):
             return
 
         self.chunks = self._chunk_text(self.text)
-        self.logger.info(f"Created {len(self.chunks)} chunks from string source {self.name}")
+        self.logger.info(f"Created {len(self.chunks)} chunks from string knowledge {self.name}")
 
     def set_text(self, text: str) -> None:
         """Update the text content"""
