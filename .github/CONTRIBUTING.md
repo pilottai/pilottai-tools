@@ -34,7 +34,7 @@ This project and everyone participating in it is governed by our Code of Conduct
    ```bash
    # Create a virtual environment
    python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   knowledge venv/bin/activate  # On Windows: venv\Scripts\activate
 
    # Install dependencies
    pip install poetry

@@ -3,17 +3,16 @@ from typing import Any, Optional
 from datetime import datetime
 import io
 from PIL import Image
-import pytesseract
 import numpy as np
-import cv2.cv2 as cv2
+import cv2 as cv2
 
 
-from pilottai.knowledge.source.base_input import BaseInputSource
+from pilottai_tools.knowledge.source.base_input import BaseInputSource
 
 
 class ImageInput(BaseInputSource):
     """
-    Input source for processing images.
+    Input knowledge for processing images.
     Extracts text content from images using OCR (Optical Character Recognition).
     """
 
@@ -69,7 +68,7 @@ class ImageInput(BaseInputSource):
                 self.is_connected = True
                 return True
 
-            self.logger.error("No image source provided")
+            self.logger.error("No image knowledge provided")
             self.is_connected = False
             return False
 
@@ -138,12 +137,12 @@ class ImageInput(BaseInputSource):
             if self.preprocess:
                 image_for_ocr = self._preprocess_image(self.pil_image)
 
-            # Run OCR
-            self.text_content = pytesseract.image_to_string(
-                image_for_ocr,
-                lang=self.lang,
-                config=self.ocr_config
-            )
+            #TODO
+            # self.text_content = pytesseract.image_to_string(
+            #     image_for_ocr,
+            #     lang=self.lang,
+            #     config=self.ocr_config
+            # )
 
             return bool(self.text_content.strip())
 

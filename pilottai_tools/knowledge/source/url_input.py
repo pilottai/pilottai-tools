@@ -4,12 +4,12 @@ from datetime import datetime
 import re
 from bs4 import BeautifulSoup
 
-from pilottai.knowledge.source.base_input import BaseInputSource
+from pilottai_tools.knowledge.source.base_input import BaseInputSource
 
 
 class URLInput(BaseInputSource):
     """
-    Input source for processing content from URLs.
+    Input knowledge for processing content from URLs.
     Fetches and processes web content.
     """
 
@@ -89,7 +89,7 @@ class URLInput(BaseInputSource):
     async def validate_content(self) -> bool:
         """Validate that content can be fetched from the URL"""
         if not self.url:
-            self.logger.warning(f"No URL specified for source {self.name}")
+            self.logger.warning(f"No URL specified for knowledge {self.name}")
             return False
 
         return await self.fetch_content()
