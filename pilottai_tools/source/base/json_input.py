@@ -2,13 +2,13 @@ import json
 from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
 
-from pilottai_tools.knowledge.source.base_input import BaseInputSource
+from pilottai_tools.source.base.base_input import BaseInputSource
 
 
 class JSONInput(BaseInputSource):
     """
-    Input knowledge for processing JSON data.
-    Handles structured JSON content for knowledge extraction.
+    Input base for processing JSON data.
+    Handles structured JSON content for base extraction.
     """
 
     def __init__(
@@ -148,7 +148,7 @@ class JSONInput(BaseInputSource):
             text_content = json.dumps(self.json_data, indent=2)
 
         self.chunks = self._chunk_text(text_content)
-        self.logger.info(f"Created {len(self.chunks)} chunks from JSON knowledge {self.name}")
+        self.logger.info(f"Created {len(self.chunks)} chunks from JSON base {self.name}")
 
     def _flatten_json(self, data, parent_key='', sep='.') -> str:
         """Flatten nested JSON into a string representation"""

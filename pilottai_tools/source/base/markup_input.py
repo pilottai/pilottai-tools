@@ -8,12 +8,12 @@ import yaml
 import json
 from xml.etree import ElementTree as ET
 
-from pilottai_tools.knowledge.source.base_input import BaseInputSource
+from pilottai_tools.source.base.base_input import BaseInputSource
 
 
 class MarkupInput(BaseInputSource):
     """
-    Input knowledge for processing markup documents (HTML, XML, Markdown, YAML).
+    Input base for processing markup documents (HTML, XML, Markdown, YAML).
     Extracts and processes content from various markup formats.
     """
 
@@ -80,7 +80,7 @@ class MarkupInput(BaseInputSource):
                 self.is_connected = bool(self.raw_content)
                 return self.is_connected
 
-            self.logger.error("No content knowledge provided")
+            self.logger.error("No content base provided")
             self.is_connected = False
             return False
 

@@ -5,12 +5,12 @@ from typing import Any, Optional
 from datetime import datetime, timedelta
 
 
-from pilottai_tools.knowledge.source.base_input import BaseInputSource
+from pilottai_tools.source.base.base_input import BaseInputSource
 
 
 class AudioInput(BaseInputSource):
     """
-    Input knowledge for processing audio files.
+    Input base for processing audio files.
     Extracts and processes speech from audio files using speech-to-text technology.
     """
 

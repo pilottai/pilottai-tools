@@ -8,7 +8,7 @@ from pilottai.memory.storage.local import DataStorage
 
 
 class SourceMetadata(BaseModel):
-    """Metadata for an input knowledge"""
+    """Metadata for an input base"""
     source_type: str
     created_at: datetime = Field(default_factory=datetime.now)
     updated_at: datetime = Field(default_factory=datetime.now)
@@ -19,7 +19,7 @@ class SourceMetadata(BaseModel):
 
 class BaseInputSource(ABC):
     """
-    Abstract base class for all knowledge input sources.
+    Abstract base class for all base input sources.
     Provides common functionality for processing and storing content.
     """
     model_config = ConfigDict(arbitrary_types_allowed=True)
@@ -62,7 +62,7 @@ class BaseInputSource(ABC):
         self.logger = self._setup_logger()
 
     def _setup_logger(self) -> logging.Logger:
-        """Setup a logger for this input knowledge"""
+        """Setup a logger for this input base"""
         logger = logging.getLogger(f"InputSource_{self.name}")
         if not logger.handlers:
             handler = logging.StreamHandler()
@@ -77,7 +77,7 @@ class BaseInputSource(ABC):
     @abstractmethod
     async def connect(self) -> bool:
         """
-        Establish a connection to the knowledge.
+        Establish a connection to the base.
         Returns True if successful, False otherwise.
         """
         pass
@@ -85,7 +85,7 @@ class BaseInputSource(ABC):
     @abstractmethod
     async def query(self, query: str) -> Any:
         """
-        Query the knowledge with the given query.
+        Query the base with the given query.
         This method should be implemented by subclasses.
         """
         pass
@@ -93,20 +93,20 @@ class BaseInputSource(ABC):
     @abstractmethod
     async def validate_content(self) -> bool:
         """
-        Validate that the content from the knowledge is accessible and processable.
+        Validate that the content from the base is accessible and processable.
         Returns True if valid, False otherwise.
         """
         pass
 
     async def add(self) -> bool:
         """
-        Process content from the knowledge, chunk it, and save it to storage.
+        Process content from the base, chunk it, and save it to storage.
         Returns True if successful, False otherwise.
         """
         try:
             # Validate content
             if not await self.validate_content():
-                self.logger.error(f"Content validation failed for knowledge {self.name}")
+                self.logger.error(f"Content validation failed for base {self.name}")
                 return False
 
             # Process and chunk content
@@ -119,14 +119,14 @@ class BaseInputSource(ABC):
             return len(self.chunks) > 0
 
         except Exception as e:
-            self.logger.error(f"Error adding content from knowledge {self.name}: {str(e)}")
+            self.logger.error(f"Error adding content from base {self.name}: {str(e)}")
             self.error_count += 1
             return False
 
     @abstractmethod
     async def _process_content(self) -> None:
         """
-        Process the content from the knowledge and populate the chunks.
+        Process the content from the base and populate the chunks.
         This method should be implemented by subclasses.
         """
         pass
@@ -139,7 +139,7 @@ class BaseInputSource(ABC):
 
             # Create metadata for each chunk
             chunk_metadata = [{
-                "knowledge": self.name,
+                "base": self.name,
                 "collection": self.collection_name,
                 "chunk_index": i,
                 "total_chunks": len(self.chunks),
@@ -169,12 +169,12 @@ class BaseInputSource(ABC):
         return chunks
 
     async def refresh(self) -> bool:
-        """Refresh content from the knowledge"""
+        """Refresh content from the base"""
         self.chunks = []
         return await self.add()
 
     def get_info(self) -> Dict[str, Any]:
-        """Get information about this input knowledge"""
+        """Get information about this input base"""
         return {
             "name": self.name,
             "type": self.__class__.__name__,

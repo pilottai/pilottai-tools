@@ -4,12 +4,12 @@ from datetime import datetime
 import docx
 import io
 
-from pilottai_tools.knowledge.source.base_input import BaseInputSource
+from pilottai_tools.source.base.base_input import BaseInputSource
 
 
 class DocInput(BaseInputSource):
     """
-    Input knowledge for processing Microsoft Word documents (.doc, .docx).
+    Input base for processing Microsoft Word documents (.doc, .docx).
     Extracts and processes text content from Word documents.
     """
 

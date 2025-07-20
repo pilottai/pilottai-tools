@@ -7,12 +7,12 @@ import numpy as np
 import cv2 as cv2
 
 
-from pilottai_tools.knowledge.source.base_input import BaseInputSource
+from pilottai_tools.source.base.base_input import BaseInputSource
 
 
 class ImageInput(BaseInputSource):
     """
-    Input knowledge for processing images.
+    Input base for processing images.
     Extracts text content from images using OCR (Optical Character Recognition).
     """
 
@@ -68,7 +68,7 @@ class ImageInput(BaseInputSource):
                 self.is_connected = True
                 return True
 
-            self.logger.error("No image knowledge provided")
+            self.logger.error("No image base provided")
             self.is_connected = False
             return False
 

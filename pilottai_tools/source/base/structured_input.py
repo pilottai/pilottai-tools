@@ -4,13 +4,13 @@ from typing import Any, Dict, List, Optional
 from datetime import datetime
 import io
 
-from pilottai_tools.knowledge.source.base_input import BaseInputSource
+from pilottai_tools.source.base.base_input import BaseInputSource
 
 
 class StructuredInput(BaseInputSource):
     """
-    Input knowledge for processing structured data like CSV, Excel, or memory tables.
-    Converts structured data into a text representation for knowledge extraction.
+    Input base for processing structured data like CSV, Excel, or memory tables.
+    Converts structured data into a text representation for base extraction.
     """
 
     def __init__(
@@ -85,7 +85,7 @@ class StructuredInput(BaseInputSource):
                 self.is_connected = True
                 return True
 
-            self.logger.error("No data knowledge provided")
+            self.logger.error("No data base provided")
             self.is_connected = False
             return False
 
@@ -112,7 +112,7 @@ class StructuredInput(BaseInputSource):
         """Query the structured data"""
         if not self.is_connected or self.dataframe is None:
             if not await self.connect():
-                raise ValueError("Could not connect to data knowledge")
+                raise ValueError("Could not connect to data base")
 
         self.access_count += 1
         self.last_access = datetime.now()

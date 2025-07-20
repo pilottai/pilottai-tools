@@ -5,10 +5,9 @@ from collections import OrderedDict
 from datetime import datetime
 from typing import Dict, List, Optional, Any
 
-from pydantic import BaseModel, Field
-
 
 from pilottai_tools.config.model import KnowledgeSource, CacheEntry
+
 
 class DataManager:
     def __init__(self, cache_size: int = 1000, cache_ttl: int = 3600):
@@ -23,17 +22,6 @@ class DataManager:
         self._setup_logging()
         self._cleanup_task = None
 
-    async def start(self):
-        self._cleanup_task = asyncio.create_task(self._periodic_cleanup())
-
-    async def stop(self):
-        if self._cleanup_task:
-            self._cleanup_task.cancel()
-            try:
-                await self._cleanup_task
-            except asyncio.CancelledError:
-                pass
-
     def _setup_logging(self):
         if not self.logger.handlers:
             handler = logging.StreamHandler()
@@ -44,24 +32,20 @@ class DataManager:
             self.logger.addHandler(handler)
             self.logger.setLevel(logging.INFO)
 
-    async def add_source(self, source: KnowledgeSource) -> bool:
+    async def add_source(self, source: KnowledgeSource):
         try:
             if source.name in self.sources:
                 raise ValueError(f"Source {source.name} already exists")
 
             self.source_locks[source.name] = asyncio.Lock()
             self.sources[source.name] = source
-            self.last_updated[source.name] = datetime.now()
-
-            connected = await self._test_connection(source)
-            source.is_connected = connected
-            return connected
+            self.last_updated[source.name] = datetime.now()\
 
         except Exception as e:
             self.logger.error(f"Error adding knowledge {source.name}: {str(e)}")
             return False
 
-    async def query_knowledge(
+    async def query_source(
             self,
             query: str,
             source_types: List[str],
@@ -109,9 +93,6 @@ class DataManager:
     ) -> Optional[Any]:
         for attempt in range(source.max_retries):
             try:
-                if not source.is_connected:
-                    if not await self._test_connection(source):
-                        raise ConnectionError(f"Source {source.name} is not connected")
                 async with asyncio.timeout(source.timeout):
                     result = await source.query(query)
                     source.access_count += 1
@@ -130,14 +111,6 @@ class DataManager:
                 if attempt < source.max_retries - 1:
                     await asyncio.sleep(source.retry_delay)
         return None
-
-    async def _test_connection(self, source: KnowledgeSource) -> bool:
-        try:
-            async with asyncio.timeout(source.timeout):
-                return await source.connect()
-        except Exception as e:
-            self.logger.error(f"Connection test failed for {source.name}: {str(e)}")
-            return False
 
     async def _get_from_cache(self, key: str) -> Optional[Any]:
         try:
@@ -223,13 +196,13 @@ class DataManager:
                 ]
                 for k in expired_keys:
                     del self.cache[k]
-                # Check knowledge health
+                # Check base health
                 for source_name, source in self.sources.items():
                     if source.error_count > source.max_retries:
                         source.is_connected = False
-                        if await self._test_connection(source):
-                            source.error_count = 0
-                            source.is_connected = True
+                        source.error_count = 0
+                        source.is_connected = True
+
         except Exception as e:
             self.logger.error(f"Cleanup error: {str(e)}")
 

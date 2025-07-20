@@ -6,12 +6,12 @@ import json
 import threading
 from collections import deque
 
-from pilottai_tools.knowledge.source.base_input import BaseInputSource
+from pilottai_tools.source.base.base_input import BaseInputSource
 
 
 class StreamInput(BaseInputSource):
     """
-    Input knowledge for processing streaming data.
+    Input base for processing streaming data.
     Handles continuous data streams and real-time processing.
     """
 
@@ -62,7 +62,7 @@ class StreamInput(BaseInputSource):
             self.start()
 
     async def connect(self) -> bool:
-        """Check if the streaming knowledge is accessible"""
+        """Check if the streaming base is accessible"""
         try:
             # For streaming sources, connection is established by starting the worker
             if self.running:
