@@ -1,8 +1,10 @@
 import redis
-import logging
-from pilottai_tools.memory.redis.config import RedisConfig
 
-logger = logging.getLogger(__name__)
+from pilottai_tools.memory.redis.config import RedisConfig
+from pilottai_tools.utils.logger import Logger
+
+logger = Logger("RedisClient")
+
 
 def get_redis_client():
     try:

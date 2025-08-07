@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
 from datetime import datetime
-import logging
 from pydantic import BaseModel, Field, ConfigDict
 
+from pilottai_tools.utils.logger import Logger
 from pilottai.memory.storage.local import DataStorage
 
 
@@ -61,17 +61,17 @@ class BaseInputSource(ABC):
         # Setup logging
         self.logger = self._setup_logger()
 
-    def _setup_logger(self) -> logging.Logger:
+    def _setup_logger(self) ->Logger:
         """Setup a logger for this input base"""
-        logger = logging.getLogger(f"InputSource_{self.name}")
+        logger = Logger(f"InputSource_{self.name}")
         if not logger.handlers:
-            handler = logging.StreamHandler()
-            formatter = logging.Formatter(
+            handler = logger.StreamHandler()
+            formatter = logger.Formatter(
                 '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
             )
             handler.setFormatter(formatter)
             logger.addHandler(handler)
-            logger.setLevel(logging.INFO)
+            logger.setLevel(logger.INFO)
         return logger
 
     @abstractmethod

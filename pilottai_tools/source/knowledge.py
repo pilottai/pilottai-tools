@@ -1,11 +1,10 @@
 import asyncio
 import json
-import logging
 from collections import OrderedDict
 from datetime import datetime
 from typing import Dict, List, Optional, Any
 
-
+from pilottai_tools.utils.logger import Logger
 from pilottai_tools.config.model import KnowledgeSource, CacheEntry
 
 
@@ -18,19 +17,19 @@ class DataManager:
         self.cache_lock = asyncio.Lock()
         self.MAX_CACHE_SIZE = max(100, cache_size)
         self.DEFAULT_CACHE_TTL = max(60, cache_ttl)
-        self.logger = logging.getLogger("KnowledgeManager")
+        self.logger = Logger("DataManager")
         self._setup_logging()
         self._cleanup_task = None
 
     def _setup_logging(self):
         if not self.logger.handlers:
-            handler = logging.StreamHandler()
-            formatter = logging.Formatter(
+            handler = self.logger.StreamHandler()
+            formatter = self.logger.Formatter(
                 '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
             )
             handler.setFormatter(formatter)
             self.logger.addHandler(handler)
-            self.logger.setLevel(logging.INFO)
+            self.logger.setLevel(self.logger.INFO)
 
     async def add_source(self, source: KnowledgeSource):
         try:
