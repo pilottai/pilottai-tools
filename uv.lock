@@ -1,16 +1,10 @@
 version = 1
 revision = 2
-requires-python = ">=3.10"
+requires-python = ">=3.10, <4.0"
 resolution-markers = [
-    "python_full_version >= '3.12' and sys_platform == 'darwin'",
-    "python_full_version >= '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux'",
-    "(python_full_version >= '3.12' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version >= '3.12' and sys_platform != 'darwin' and sys_platform != 'linux')",
-    "python_full_version == '3.11.*' and sys_platform == 'darwin'",
-    "python_full_version == '3.11.*' and platform_machine == 'aarch64' and sys_platform == 'linux'",
-    "(python_full_version == '3.11.*' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version == '3.11.*' and sys_platform != 'darwin' and sys_platform != 'linux')",
-    "python_full_version < '3.11' and sys_platform == 'darwin'",
-    "python_full_version < '3.11' and platform_machine == 'aarch64' and sys_platform == 'linux'",
-    "(python_full_version < '3.11' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version < '3.11' and sys_platform != 'darwin' and sys_platform != 'linux')",
+    "python_full_version >= '3.12'",
+    "python_full_version == '3.11.*'",
+    "python_full_version < '3.11'",
 ]
 
 [[package]]
@@ -1486,7 +1480,9 @@ source = { editable = "." }
 dependencies = [
     { name = "aiohttp" },
     { name = "beautifulsoup4" },
+    { name = "black" },
     { name = "markdown" },
+    { name = "mkdocs-material" },
     { name = "neo4j" },
     { name = "numpy" },
     { name = "opencv-python" },
@@ -1525,7 +1521,6 @@ docs = [
     { name = "pre-commit" },
     { name = "pytest" },
     { name = "python-docx" },
-    { name = "redis" },
     { name = "ruff" },
 ]
 graph = [
@@ -1575,12 +1570,14 @@ requires-dist = [
     { name = "beautifulsoup4", marker = "extra == 'all'", specifier = ">=4.13.4" },
     { name = "beautifulsoup4", marker = "extra == 'knowledge'", specifier = ">=4.13.4" },
     { name = "beautifulsoup4", marker = "extra == 'web'", specifier = ">=4.13.4" },
+    { name = "black", specifier = ">=25.1.0" },
     { name = "black", marker = "extra == 'dev'" },
     { name = "black", marker = "extra == 'docs'" },
     { name = "markdown", specifier = ">=3.8.2" },
     { name = "markdown", marker = "extra == 'all'", specifier = ">=3.8.2" },
     { name = "markdown", marker = "extra == 'knowledge'", specifier = ">=3.8.2" },
     { name = "mkdocs", marker = "extra == 'docs'" },
+    { name = "mkdocs-material", specifier = ">=9.6.15" },
     { name = "mkdocs-material", marker = "extra == 'docs'" },
     { name = "neo4j", specifier = ">=5.28.1" },
     { name = "neo4j", marker = "extra == 'all'", specifier = ">=5.28.1" },
@@ -1616,7 +1613,6 @@ requires-dist = [
     { name = "pyyaml", marker = "extra == 'knowledge'", specifier = ">=6.0.2" },
     { name = "redis", specifier = ">=6.2.0" },
     { name = "redis", marker = "extra == 'all'", specifier = ">=6.2.0" },
-    { name = "redis", marker = "extra == 'docs'" },
     { name = "redis", marker = "extra == 'memory'", specifier = ">=6.2.0" },
     { name = "redis", marker = "extra == 'redis'", specifier = ">=6.2.0" },
     { name = "redis", marker = "extra == 'short'", specifier = ">=6.2.0" },
