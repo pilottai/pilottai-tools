@@ -150,54 +150,7 @@ class Logger:
         extra = {k: v for k, v in extra.items() if v is not None}
 
         # Log the message
-        self.logger.log(level, message, extra=extra, exc_info=kwargs.get('exc_info', False))
-
-    def log_api_request(self, method: str, endpoint: str, status_code: int,
-                        duration: float, user_id: Optional[int] = None,
-                        ip_address: Optional[str] = None, **kwargs):
-        """Log API request details"""
-        message = f"{method} {endpoint} - {status_code} - {duration:.3f}s"
-
-        self.info(
-            message,
-            method=method,
-            endpoint=endpoint,
-            status_code=status_code,
-            duration=duration,
-            user_id=user_id,
-            ip_address=ip_address,
-            **kwargs
-        )
-
-    def log_database_query(self, query: str, duration: float, affected_rows: int = None, **kwargs):
-        """Log database query performance"""
-        message = f"DB Query executed in {duration:.3f}s"
-        if affected_rows is not None:
-            message += f" - {affected_rows} rows affected"
-
-        self.debug(
-            message,
-            context={
-                'query': query[:200] + '...' if len(query) > 200 else query,
-                'duration': duration,
-                'affected_rows': affected_rows
-            },
-            **kwargs
-        )
-
-    def log_user_action(self, user_id: int, action: str, details: Dict[str, Any] = None, **kwargs):
-        """Log user actions for audit trail"""
-        message = f"User {user_id} performed action: {action}"
-
-        self.info(
-            message,
-            user_id=user_id,
-            context={
-                'action': action,
-                'details': details or {}
-            },
-            **kwargs
-        )
+        self.logger.log(level, message, extra=extra, exc_info=kwargs.get('exc_info', False), stacklevel=3)
 
     def log_performance(self, operation: str, duration: float, **kwargs):
         """Log performance metrics"""
