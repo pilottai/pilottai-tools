@@ -141,7 +141,7 @@ class ImageInput(BaseInputSource):
             # self.text_content = pytesseract.image_to_string(
             #     image_for_ocr,
             #     lang=self.lang,
-            #     config=self.ocr_config
+            #     schema=self.ocr_config
             # )
 
             return bool(self.text_content.strip())

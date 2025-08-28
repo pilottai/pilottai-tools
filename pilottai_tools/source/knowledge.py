@@ -5,7 +5,7 @@ from datetime import datetime
 from typing import Dict, List, Optional, Any
 
 from pilottai_tools.utils.logger import Logger
-from pilottai_tools.config.model import KnowledgeSource, CacheEntry
+from pilottai_tools.schema.model import KnowledgeSource, CacheEntry
 
 
 class DataManager:
